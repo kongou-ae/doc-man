@@ -1,4 +1,4 @@
-# docker-sphinx 
+# doc-man 
 # VERSION       0.1
 # MAINTAINER    kongou_ae
 
@@ -23,15 +23,15 @@ RUN echo 'root:password' |chpasswd
 RUN /usr/bin/ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key -C '' -N ''
 RUN /usr/bin/ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -C '' -N ''
 
-# docker-sphinx                                                                
-RUN cd /usr/local && git clone https://github.com/kongou-ae/docker-sphinx.git
+# doc-man                                                               
+RUN cd /usr/local && git clone https://github.com/kongou-ae/doc-man.git
 
 # livereload setting
 RUN curl -kL https://raw.github.com/pypa/pip/master/contrib/get-pip.py | python
 RUN pip install livereload
 
 # nginx setting
-RUN cp -f /usr/local/docker-sphinx/nginx.conf /etc/nginx/nginx.conf
+RUN cp -f /usr/local/doc-man/nginx.conf /etc/nginx/nginx.conf
 
 # supervisor setting
 RUN pip install supervisor 
@@ -39,14 +39,19 @@ RUN echo_supervisord_conf > /etc/supervisord.conf
 RUN echo "[include]" >> /etc/supervisord.conf
 RUN echo "files = supervisord/conf/*.conf" >> /etc/supervisord.conf
 RUN mkdir -p /etc/supervisord/conf/
-RUN cp -p /usr/local/docker-sphinx/docker_service.conf /etc/supervisord/conf/docker_service.conf
+RUN cp -p /usr/local/doc-man/docker_service.conf /etc/supervisord/conf/docker_service.conf
 
 # font setting
 RUN curl -O http://download.forest.impress.co.jp/pub/library/i/ipaexfont/10823/ipaexg00201.zip
 RUN unzip ipaexg00201.zip
 RUN mv ipaexg00201 /usr/share/fonts
 
-EXPOSE 22 80 35729
+# samba setting
+RUN yum install -y samba
+RUN yum clean all
+RUN mkdir /home/doc-man
+RUN cp -f /usr/local/doc-man/samba.conf /etc/nginx/samba.conf
+
+EXPOSE 22 80 139 35729
 
 CMD ["/usr/bin/supervisord"]
-
