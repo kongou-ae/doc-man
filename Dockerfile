@@ -16,6 +16,7 @@ RUN yum clean all
 RUN cabal update
 RUN cabal install zip-archive
 RUN cabal install pandoc pandoc-citeproc
+RUN yum -y install texlive-luatexja texlive-lualibs texlive-collection-langcjk texlive-euenc
 
 # SSH setting
 RUN mkdir /var/run/sshd
@@ -46,7 +47,7 @@ RUN mv ipaexg00201 /usr/share/fonts
 # samba setting
 RUN yum install -y samba
 RUN yum clean all
-RUN mkdir /home/doc-man && chmod -R 777 /home/doc-man
+RUN mkdir /home/doc-man
 ADD smb.conf /etc/samba/smb.conf
 
 EXPOSE 22 80 139 445 35729
