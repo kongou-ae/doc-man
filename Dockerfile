@@ -39,7 +39,7 @@ RUN echo_supervisord_conf > /etc/supervisord.conf
 RUN echo "[include]" >> /etc/supervisord.conf
 RUN echo "files = supervisord/conf/*.conf" >> /etc/supervisord.conf
 RUN mkdir -p /etc/supervisord/conf/
-RUN cp -p /usr/local/doc-man/docker_service.conf /etc/supervisord/conf/docker_service.conf
+RUN cp -p /usr/local/doc-man/doc-man_service.conf /etc/supervisord/conf/doc-man_service.conf
 
 # font setting
 RUN curl -O http://download.forest.impress.co.jp/pub/library/i/ipaexfont/10823/ipaexg00201.zip
@@ -50,8 +50,8 @@ RUN mv ipaexg00201 /usr/share/fonts
 RUN yum install -y samba
 RUN yum clean all
 RUN mkdir /home/doc-man
-RUN cp -f /usr/local/doc-man/samba.conf /etc/nginx/samba.conf
+RUN cp -f /usr/local/doc-man/smb.conf /etc/samba/smb.conf
 
-EXPOSE 22 80 139 35729
+EXPOSE 22 80 139 445 35729
 
 CMD ["/usr/bin/supervisord"]
