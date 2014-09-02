@@ -1,0 +1,11 @@
+#!/bin/bash
+
+case "$1" in
+  "build")
+    docker build -t kongou_ae/doc-man .;;
+  "start")
+    docker run -d -p 8022:22 -p 8080:80 -p 35729:35729 -p 139:139 -p 445:445 kongou_ae/doc-man;;
+  "login")
+    ssh -l root -p 8022 localhost;;
+esac
+
