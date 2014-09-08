@@ -3,10 +3,9 @@
 \ProvidesClass{docman}
 \RequirePackage{luatexja}
 \ProcessOptions
+\LoadClass{ltjarticle}
 \usepackage{fancyhdr}
 \pagestyle{fancy}
-%\LoadClass{ltjreport}
-\LoadClass{ltjarticle}
 % 紙サイズの指定
 \setlength{\paperheight}{297mm}
 \setlength{\paperwidth}{210mm}
@@ -53,3 +52,21 @@
   \cleardoublepage
   }
 \makeatletter
+% タイトル
+\renewcommand{\tableofcontents}{%
+  \section*{\contentsname}
+  \@starttoc{toc}
+  \thispagestyle{empty}
+  \setcounter{page}{0} % 目次からページをはじめる。でも0スタート。
+  \clearpage
+}
+% ヘッダフッタ
+\lhead{}
+\chead{}
+\rhead{}
+\lfoot{}
+\cfoot{\thepage}
+\rfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\setlength{\headwidth}{150mm}
